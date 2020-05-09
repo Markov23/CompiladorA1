@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Irony.Parsing;
@@ -18,56 +19,33 @@ namespace Compilador.Lexico_Sintactico
             public const string TipoAcceso = "<tipo-acceso>";
             public const string MetodoMain = "<main>";
             public const string BloqueCodigo = "<bloque-codigo>";
-            public const string DeclaracionVariables = "<declaracion-variable>";
+            public const string OperacionVariable = "<operacion-variable>";
+            public const string DeclaracionVariable = "<declaracion-variable>";
             public const string TipoDato = "<tipo-dato";
             public const string Variable = "<variable>";
             public const string Valor = "<valor>";
             public const string EntradaDatos = "<entrada-datos>";
             public const string TipoEntrada = "<tipo-entrada>";
-
-            public const string DeclaracionVariable = "<declaracion-variable>";
-            public const string LineaDeclaracionVariable = "<lista-declaracion-variables>";
-            public const string LineaDeclaracionVariableValores = "<lista-declaracion-variables-valores>";
-            public const string Tipo = "<tipo>";
-
-            public const string Asignacion = "<asignacion>";
-            public const string AsignacionSentencia = "<asignacion-sentencia>";
-            public const string Asignable = "<asignable>";
-            public const string ListaAsignable = "<lista-asignable>";
-            public const string ExpresionAritmetica = "<expresion-aritemtica>";
+            public const string ExpresionAritmetica = "<expresion-aritmetica>";
             public const string OperadorAritmetico = "<operador-aritmetico>";
-            public const string ExpresionRelacional = "<expresion-relacional>";
-            public const string OperadorRelacional = "<operador-relacional>";
-            public const string LlamadaFuncion = "<llamada-funcion>";
-            public const string IdLlamadaFuncion = "<id-llamada-funcion>";
-            public const string DeclaracionFuncion = "<declaracion-funcion>";
-            public const string TipoFuncion = "<tipo-funcion>";
-            public const string BloqueFuncion = "<bloque-funcion>";
-            public const string Parametro = "<parametro>";
-            public const string ListaParametro = "<lista-parametro>";
-            public const string Sentencia = "<sentencia>";
-            public const string ListaSentencia = "<lista-sentencia>";
+            public const string ValorLogico = "<valor-logico>";
+            //public const string AsignacionValor = "<asignacion-valor>";
+            public const string AsignarValor = "<asignar-valor>";
+            public const string OperadorAsignacion = "<operador-asignacion>";
+            public const string DeclaracionScanner = "<declaracion-scanner>";
+            //public const string OperacionSimple = "<operacion-simple>";
+            public const string SalidaPantalla = "<salida-pantalla>";
             public const string ControladorFlujo = "<controlador-flujo>";
-            public const string SentenciaIf = "<if>";
+            public const string If = "<if>";
             public const string BloqueIf = "<bloque-if>";
-            public const string SentenciaElse = "<else>";
-            public const string SentenciaWhen = "<when>";
-            public const string BloqueWhen = "<bloque-when>";
-            public const string OpcionWhen = "<opcion-when>";
-            public const string ListaOpcionWhen = "<lista-opcion-when>";
-            public const string DefaultWhen = "<default-when>";
-            public const string SentenciaWhile = "<sentencia-while>";
-            public const string BloqueWhile = "<bloque-while>";
-            public const string SentenciaFor = "<for>";
-            public const string ParametrosFor = "<parametros-for>";
-            public const string ParametroFor1 = "<parametro-for-1>";
-            public const string ParametroFor2 = "<parametro-for-2>";
-            public const string ParametroFor3 = "<parametro-for-3>";
-            public const string BloqueFor = "<bloque-for>";
-            public const string Write = "<write>";
-            public const string WriteLine = "<write-line>";
-            public const string Instruccion = "<instruccion>";
-            public const string Input = "<input>";
+            public const string Condicion = "<condicion>";
+            public const string OperadorRelacional = "<operador-relacional>";
+            public const string OperadorLogico = "<operador-logico>";
+            public const string BloqueElse = "<bloque-else>";
+            public const string Switch = "<switch>";
+            public const string BloqueSwitch = "<bloque-switch>";
+            public const string Caso = "<caso>";
+            public const string DeclaracionArreglo = "<declaracion-arreglo>";
         }
 
         public static class Terminales
@@ -110,13 +88,11 @@ namespace Compilador.Lexico_Sintactico
             public const string Or = "||";
             public const string Not = "!";
 
-            public const string Add = "+=";
-            public const string Sub = "-=";
-            public const string Mul = "*=";
-            public const string Div = "/=";
-            public const string Mod = "%=";
-            public const string Pow = "^=";
-            public const string Roo = "~=";
+            public const string Sumar = "+=";
+            public const string Restar = "-=";
+            public const string Multiplicar = "*=";
+            public const string Dividir = "/=";
+            public const string Modular = "%=";
 
             public const string IgualIgual = "==";
             public const string Diferente = "!=";
@@ -172,12 +148,34 @@ namespace Compilador.Lexico_Sintactico
             var tipoAcceso = new NonTerminal(NoTerminales.TipoAcceso);
             var metodoMain = new NonTerminal(NoTerminales.MetodoMain);
             var bloqueCodigo = new NonTerminal(NoTerminales.BloqueCodigo);
+            var operacionVariable = new NonTerminal(NoTerminales.OperacionVariable);
             var declaracionVariable = new NonTerminal(NoTerminales.DeclaracionVariable);
             var tipoDato = new NonTerminal(NoTerminales.TipoDato);
             var variable = new NonTerminal(NoTerminales.Variable);
             var valor = new NonTerminal(NoTerminales.Valor);
             var entradaDatos = new NonTerminal(NoTerminales.EntradaDatos);
             var tipoEntrada = new NonTerminal(NoTerminales.TipoEntrada);
+            var expresionAritmetica = new NonTerminal(NoTerminales.ExpresionAritmetica);
+            var operadorAritmetico = new NonTerminal(NoTerminales.OperadorAritmetico);
+            var valorLogico = new NonTerminal(NoTerminales.ValorLogico);
+            //var asignacionValor = new NonTerminal(NoTerminales.AsignacionValor);
+            var asignarValor = new NonTerminal(NoTerminales.AsignarValor);
+            var operadorAsignacion = new NonTerminal(NoTerminales.OperadorAsignacion);
+            var declaracionScanner = new NonTerminal(NoTerminales.DeclaracionScanner);
+            //var operacionSimple = new NonTerminal(NoTerminales.OperacionSimple);
+            var salidaPantalla = new NonTerminal(NoTerminales.SalidaPantalla);
+            var controladorFlujo = new NonTerminal(NoTerminales.ControladorFlujo);
+            var ifRegla = new NonTerminal(NoTerminales.If);
+            var bloqueIf = new NonTerminal(NoTerminales.BloqueIf);
+            var condicion = new NonTerminal(NoTerminales.Condicion);
+            var operadorRelacional = new NonTerminal(NoTerminales.OperadorRelacional);
+            var operadorLogico = new NonTerminal(NoTerminales.OperadorLogico);
+            var bloqueElse = new NonTerminal(NoTerminales.BloqueElse);
+            var switchRegla = new NonTerminal(NoTerminales.Switch);
+            var bloqueSwitch = new NonTerminal(NoTerminales.BloqueSwitch);
+            var caso = new NonTerminal(NoTerminales.Caso);
+            var declaracionArreglo = new NonTerminal(NoTerminales.DeclaracionArreglo);
+
             #endregion
 
             #region Terminales
@@ -243,13 +241,11 @@ namespace Compilador.Lexico_Sintactico
             #endregion
 
             #region Operadores matematicos
-            var add_ = ToTerm(Terminales.Add);
-            var sub_ = ToTerm(Terminales.Sub);
-            var mul_ = ToTerm(Terminales.Mul);
-            var div_ = ToTerm(Terminales.Div);
-            var mod_ = ToTerm(Terminales.Mod);
-            var pow_ = ToTerm(Terminales.Pow);
-            var roo_ = ToTerm(Terminales.Roo);
+            var sumar_ = ToTerm(Terminales.Sumar);
+            var restar_ = ToTerm(Terminales.Restar);
+            var multiplicar_ = ToTerm(Terminales.Multiplicar);
+            var dividir_ = ToTerm(Terminales.Dividir);
+            var modular_ = ToTerm(Terminales.Modular);
             #endregion
 
             #region Operadores relacionales
@@ -287,36 +283,122 @@ namespace Compilador.Lexico_Sintactico
             #endregion
 
             #region Reglas
-            raiz.Rule = importacionLibrerias + declaracionClase|
+            raiz.Rule = importacionLibrerias + declaracionClase |
                 declaracionClase;
 
+            //Importacion de librerias
             importacionLibrerias.Rule = import_ + llamadaLibreria;
 
             llamadaLibreria.Rule = nombre + puntoComa_ |
                 nombre + punto_ + llamadaLibreria;
-                ;
-
+            ;
+            //Declaracion de la clase
             declaracionClase.Rule = tipoAcceso + class_ + nombre + llavesAbrir_ + llavesCerrar_ |
                 tipoAcceso + class_ + nombre + llavesAbrir_ + metodoMain + llavesCerrar_;
 
             tipoAcceso.Rule = private_ | public_;
 
+            //Metodo main
             metodoMain.Rule = public_ + static_ + void_ + main_ + parentesisAbrir_ + string_ + corcheteAbrir_ + corcheteCerrar_ + nombre + parentesisCerrar_ + llavesAbrir_ + llavesCerrar_ |
                 public_ + static_ + void_ + main_ + parentesisAbrir_ + string_ + corcheteAbrir_ + corcheteCerrar_ + nombre + parentesisCerrar_ + llavesAbrir_ + bloqueCodigo + llavesCerrar_;
 
-            bloqueCodigo.Rule = declaracionVariable | declaracionVariable + bloqueCodigo;
+            //Bloque de codigo
+            bloqueCodigo.Rule = declaracionScanner | declaracionScanner + bloqueCodigo |
+                salidaPantalla | salidaPantalla + bloqueCodigo |
+                operacionVariable | operacionVariable + bloqueCodigo |
+                controladorFlujo | controladorFlujo + bloqueCodigo |
+                declaracionArreglo | declaracionArreglo + bloqueCodigo;
 
-            declaracionVariable.Rule = tipoDato + variable + puntoComa_;
+            //Operaciones con variables\
+            //Declaracion
+            operacionVariable.Rule = declaracionVariable + puntoComa_;
+
+            declaracionVariable.Rule = tipoDato + variable;
 
             tipoDato.Rule = int_ | float_ | double_ | boolean_ | string_;
 
-            variable.Rule = nombre | nombre + igual_ + valor | variable + coma_ + variable;
+            variable.Rule = nombre | nombre + coma_ + variable |
+                asignarValor | asignarValor + coma_ + variable;
 
-            valor.Rule = numero | nombre | stringRegex | false_ | true_ | entradaDatos;
+            valor.Rule = expresionAritmetica | valorLogico | entradaDatos;
+
+            expresionAritmetica.Rule = numero | nombre | stringRegex |
+                parentesisAbrir_ + expresionAritmetica + parentesisCerrar_ |
+                expresionAritmetica + operadorAritmetico + expresionAritmetica;
+
+            operadorAritmetico.Rule = mas_ | menos_ | por_ | entre_ | modulo_;
+
+            valorLogico.Rule = false_ | true_;
 
             entradaDatos.Rule = nombre + punto_ + tipoEntrada + parentesisAbrir_ + parentesisCerrar_;
 
             tipoEntrada.Rule = nextInt_ | nextFloat_ | nextDouble_ | nextBoolean_ | next_;
+
+            asignarValor.Rule = nombre + operadorAsignacion + valor;
+
+            operadorAsignacion.Rule = igual_ | sumar_ | restar_ | multiplicar_ | dividir_ | modular_;
+
+            //operacionSimple.Rule = nombre + mas_ + mas_ + puntoComa_ | nombre + menos_ + menos_ + puntoComa_;
+
+            //Arreglo
+
+            declaracionArreglo.Rule = tipoDato + corcheteAbrir_ + corcheteCerrar_ + nombre + puntoComa_ |
+                tipoDato + corcheteAbrir_ + corcheteCerrar_ + nombre  + igual_ + new_ + tipoDato + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + puntoComa_ |
+                tipoDato + nombre + corcheteAbrir_ + corcheteCerrar_ + puntoComa_ |
+                tipoDato + nombre + corcheteAbrir_ + corcheteCerrar_ + igual_ + new_ + tipoDato + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + puntoComa_ |
+                tipoDato + corcheteAbrir_ + corcheteCerrar_ + corcheteAbrir_ + corcheteCerrar_ + nombre + puntoComa_ |
+                tipoDato + corcheteAbrir_ + corcheteCerrar_ + corcheteAbrir_ + corcheteCerrar_ + nombre + igual_ + new_ + tipoDato + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + puntoComa_ |
+                tipoDato + nombre + corcheteAbrir_ + corcheteCerrar_ + corcheteAbrir_ + corcheteCerrar_ + puntoComa_ |
+                tipoDato + nombre + corcheteAbrir_ + corcheteCerrar_ + corcheteAbrir_ + corcheteCerrar_ + igual_ + new_ + tipoDato + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + puntoComa_;
+
+            //Scanner
+            declaracionScanner.Rule = scanner_ + nombre + igual_ + new_ + scanner_ + parentesisAbrir_ + system_ + punto_ + in_ + parentesisCerrar_ + puntoComa_;
+
+            //Salida a pantalla
+            salidaPantalla.Rule = system_+punto_+out_+punto_+print_+parentesisAbrir_+ expresionAritmetica +parentesisCerrar_+puntoComa_ |
+                system_ + punto_ + out_ + punto_ + println_ + parentesisAbrir_ + expresionAritmetica + parentesisCerrar_ + puntoComa_;
+
+            //Controlador flujo
+            controladorFlujo.Rule = bloqueIf | switchRegla;
+
+            //If
+            ifRegla.Rule = if_ + parentesisAbrir_ + condicion + parentesisCerrar_;
+
+            bloqueIf.Rule = ifRegla + llavesAbrir_ + llavesCerrar_ |
+                ifRegla + llavesAbrir_ + bloqueCodigo + llavesCerrar_ |
+                ifRegla + llavesAbrir_ + llavesCerrar_ + bloqueElse|
+                ifRegla + llavesAbrir_ + bloqueCodigo + llavesCerrar_ + bloqueElse;
+
+            condicion.Rule = expresionAritmetica + operadorRelacional + expresionAritmetica | 
+                condicion + operadorLogico + condicion | 
+                valorLogico | 
+                not_ + expresionAritmetica;
+
+            operadorRelacional.Rule = igualIgual_ | mayor_ | mayorIgual_ | menor_ | menorIgual_ | diferente_;
+
+            operadorLogico.Rule = and_ | or_ | not_;
+
+            bloqueElse.Rule = else_ +llavesAbrir_ + llavesCerrar_ |
+                    else_ + llavesAbrir_ + bloqueCodigo + llavesCerrar_ |
+                    else_ + ifRegla + llavesAbrir_ + llavesCerrar_ |
+                    else_ + ifRegla + llavesAbrir_ + bloqueCodigo + llavesCerrar_ |
+                    else_ + ifRegla + llavesAbrir_ + llavesCerrar_ + bloqueElse |
+                    else_ + ifRegla + llavesAbrir_ + bloqueCodigo + llavesCerrar_ + bloqueElse;
+
+            //Switch
+            switchRegla.Rule = switch_ + parentesisAbrir_ + nombre + parentesisCerrar_ + llavesAbrir_ + bloqueSwitch + llavesCerrar_;
+
+            bloqueSwitch.Rule = caso | caso + bloqueSwitch;
+
+            caso.Rule = case_ + valor + dosPuntos_|
+                case_ + valor + dosPuntos_ + bloqueCodigo | 
+                case_ + valor + dosPuntos_ + break_  + puntoComa_|
+                case_ + valor + dosPuntos_ + bloqueCodigo + break_ + puntoComa_|
+                default_ + dosPuntos_ |
+                default_ + dosPuntos_ + bloqueCodigo |
+                default_ + dosPuntos_ + break_ + puntoComa_|
+                default_ + dosPuntos_ + bloqueCodigo + break_ + puntoComa_;
+
             #endregion
 
             Root = raiz;
