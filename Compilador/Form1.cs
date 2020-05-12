@@ -9,14 +9,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Irony.Parsing;
 using Compilador.Lexico_Sintactico;
+using Compilador.Lexico;
 
 namespace Compilador
 {
     public partial class Compilador : Form
     {
+        DataTable dt = new DataTable();
+
         public Compilador()
         {
             InitializeComponent();
+            dt.Columns.Add("Simbolo");
+            dt.Columns.Add("Token");
+            dt.Columns.Add("Indice");
+            datos.DataSource = dt;
         }
 
         public void Compilar()
@@ -38,16 +45,43 @@ namespace Compilador
             }
             else
             {
-                MessageBox.Show("Analisis Exitoso");
+                //MessageBox.Show("Analisis Exitoso");        
                 PrintParseTree(arbol.Root, lista);
-            }
+                Formatear(lista);
+                LLenarTabla(lista);
+            }        
+        }
+
+        public void LLenarTabla(List<string> lista)
+        {
+            dt.Rows.Clear();
+            string[] arregloP;
+
+            for(int i = 0; i < lista.Count; i++)
+            {
+                arregloP = lista[i].Split(' ');
+
+                DataRow row = dt.NewRow();
+
+                row["Simbolo"] = arregloP[0];
+                row["Token"] = arregloP[arregloP.Length - 1].Replace('_',' '); ;
+                row["Indice"] = arregloP[arregloP.Length-2];
+                //datos.DefaultCellStyle.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Regular);
+                //datos.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Regular);
+                dt.Rows.Add(row);
+            }            
+        }
+
+        public void Formatear(List<string> lista)
+        {
+            LexerJ Formateador = new LexerJ();
+
+            lista = Formateador.Formatear(lista);
 
             for (int i = 0; i < lista.Count; i++)
             {
                 Console.WriteLine(lista[i]);
             }
-
-            Console.ReadLine();
         }
 
         public void PrintParseTree(ParseTreeNode node, List<string> lista, int index = 0, int level = 0)
@@ -58,7 +92,7 @@ namespace Compilador
                 Console.Write("\t");
             }*/
 
-            lista.Add(node + " [" + index + "]");
+            lista.Add(node.ToString() + " [" + index + "]");
 
             var childIndex = 0;
             foreach (var child in node.ChildNodes)

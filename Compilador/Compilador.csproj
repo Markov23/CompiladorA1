@@ -55,9 +55,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Lexico-Sintactico\GramaticaC.cs" />
-    <Compile Include="Lexico-Sintactico\GramaticaJ.cs" />
-    <Compile Include="Lexico-Sintactico\GramaticaP.cs" />
+    <Compile Include="Lexico\LexerJ.cs" />
+    <Compile Include="Lexico_Sintactico\GramaticaC.cs" />
+    <Compile Include="Lexico_Sintactico\GramaticaJ.cs" />
+    <Compile Include="Lexico_Sintactico\GramaticaP.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

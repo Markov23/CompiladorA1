@@ -49,5 +49,39 @@ int[] arreglo = new int[10];
 string[][] matriz = new string[10][20];
 boolean matriz[][] = new boolean[10][20];
 
+for(int i = 0; i < z; i = i + 1)
+{
+System.out.println("Mensaje numero: "+(i+1));
+}
+
+int numero = 42;
+
+do
+{
+System.out.println("Adivina el numero");
+int adivina = leer.nextInt();
+if(adivina > numero)
+{
+System.out.println("Prueba con un numero mas chico");
+}
+else if( adivina < numero)
+{
+System.out.println("Prueba con un numero mas grande");
+}
+
+}
+while(adivina != numero);
+
+System.out.println("Felicidades has ganado");
+
+boolean valor = false;
+
+while(valor == false)
+{
+System.out.println("El valor es false");
+}
+
+//Esto es un comentario de una sola linea
+
 }
 }

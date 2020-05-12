@@ -46,6 +46,11 @@ namespace Compilador.Lexico_Sintactico
             public const string BloqueSwitch = "<bloque-switch>";
             public const string Caso = "<caso>";
             public const string DeclaracionArreglo = "<declaracion-arreglo>";
+            //public const string AsignarArreglo = "<asignar-arreglo>";
+            public const string BloqueFor = "<bloque-for>";
+            public const string BloqueWhile = "<bloque-while>";
+            public const string BloqueDoWhile = "<bloque-do-while>";
+
         }
 
         public static class Terminales
@@ -74,6 +79,7 @@ namespace Compilador.Lexico_Sintactico
             public const string Else = "else";
             public const string Default = "default";
             public const string While = "while";
+            public const string Do = "do";
             public const string For = "for";
             public const string Switch = "switch";
             public const string Case = "case";
@@ -83,6 +89,7 @@ namespace Compilador.Lexico_Sintactico
             public const string Double = "double";
             public const string Boolean = "boolean";
             public const string String = "string";
+            public const string Char = "char";
 
             public const string And = "&&";
             public const string Or = "||";
@@ -123,6 +130,7 @@ namespace Compilador.Lexico_Sintactico
             public const string NextFloat = "nextFloat";
             public const string NextDouble = "nextDouble";
             public const string NextBoolean = "nextBoolean";
+            public const string NextChar = "nextChar";
             public const string Next = "next";
         }
 
@@ -136,6 +144,8 @@ namespace Compilador.Lexico_Sintactico
             public const string NumeroRegex = "\\d+[f|d]?(\\.\\d+[f|d]?)?";
             public const string String = "string";
             public const string StringRegex = "\"[^\"]*\"";
+            public const string Char = "string";
+            public const string CharRegex = "\'[^\']*\'";
         }
 
         public GramaticaJ() : base()
@@ -175,6 +185,10 @@ namespace Compilador.Lexico_Sintactico
             var bloqueSwitch = new NonTerminal(NoTerminales.BloqueSwitch);
             var caso = new NonTerminal(NoTerminales.Caso);
             var declaracionArreglo = new NonTerminal(NoTerminales.DeclaracionArreglo);
+            //var asignarArreglo = new NonTerminal(NoTerminales.AsignarArreglo);
+            var bloqueFor = new NonTerminal(NoTerminales.BloqueFor);
+            var bloqueWhile = new NonTerminal(NoTerminales.BloqueWhile);
+            var bloqueDoWhile = new NonTerminal(NoTerminales.BloqueDoWhile);
 
             #endregion
 
@@ -207,6 +221,7 @@ namespace Compilador.Lexico_Sintactico
             var else_ = ToTerm(Terminales.Else);
             var default_ = ToTerm(Terminales.Default);
             var while_ = ToTerm(Terminales.While);
+            var do_ = ToTerm(Terminales.Do);
             var for_ = ToTerm(Terminales.For);
             var switch_ = ToTerm(Terminales.Switch);
             var case_ = ToTerm(Terminales.Case);
@@ -218,6 +233,7 @@ namespace Compilador.Lexico_Sintactico
             var double_ = ToTerm(Terminales.Double);
             var boolean_ = ToTerm(Terminales.Boolean);
             var string_ = ToTerm(Terminales.String);
+            var char_ = ToTerm(Terminales.Char);
             #endregion
 
             #region Simbolos
@@ -271,6 +287,7 @@ namespace Compilador.Lexico_Sintactico
             var nextDouble_ = ToTerm(Terminales.NextDouble);
             var nextBoolean_ = ToTerm(Terminales.NextBoolean);
             var next_ = ToTerm(Terminales.Next);
+            var nextChar_ = ToTerm(Terminales.NextChar);
             #endregion
 
             #endregion
@@ -280,6 +297,7 @@ namespace Compilador.Lexico_Sintactico
             var nombre = new RegexBasedTerminal(ExpresionesRegulares.Nombre, ExpresionesRegulares.NombreRegex);
             var numero = new RegexBasedTerminal(ExpresionesRegulares.Numero, ExpresionesRegulares.NumeroRegex);
             var stringRegex = new RegexBasedTerminal(ExpresionesRegulares.String, ExpresionesRegulares.StringRegex);
+            var charRegex = new RegexBasedTerminal(ExpresionesRegulares.Char, ExpresionesRegulares.CharRegex);
             #endregion
 
             #region Reglas
@@ -307,7 +325,11 @@ namespace Compilador.Lexico_Sintactico
                 salidaPantalla | salidaPantalla + bloqueCodigo |
                 operacionVariable | operacionVariable + bloqueCodigo |
                 controladorFlujo | controladorFlujo + bloqueCodigo |
-                declaracionArreglo | declaracionArreglo + bloqueCodigo;
+                declaracionArreglo | declaracionArreglo + bloqueCodigo |
+                bloqueFor | bloqueFor + bloqueCodigo |
+                bloqueWhile | bloqueWhile + bloqueCodigo |
+                bloqueDoWhile | bloqueDoWhile + bloqueCodigo |
+                comentario | comentario + bloqueCodigo;
 
             //Operaciones con variables\
             //Declaracion
@@ -315,12 +337,12 @@ namespace Compilador.Lexico_Sintactico
 
             declaracionVariable.Rule = tipoDato + variable;
 
-            tipoDato.Rule = int_ | float_ | double_ | boolean_ | string_;
+            tipoDato.Rule = int_ | float_ | double_ | boolean_ | string_ | char_;
 
             variable.Rule = nombre | nombre + coma_ + variable |
                 asignarValor | asignarValor + coma_ + variable;
 
-            valor.Rule = expresionAritmetica | valorLogico | entradaDatos;
+            valor.Rule = expresionAritmetica | valorLogico | entradaDatos | null_ | charRegex;
 
             expresionAritmetica.Rule = numero | nombre | stringRegex |
                 parentesisAbrir_ + expresionAritmetica + parentesisCerrar_ |
@@ -332,7 +354,7 @@ namespace Compilador.Lexico_Sintactico
 
             entradaDatos.Rule = nombre + punto_ + tipoEntrada + parentesisAbrir_ + parentesisCerrar_;
 
-            tipoEntrada.Rule = nextInt_ | nextFloat_ | nextDouble_ | nextBoolean_ | next_;
+            tipoEntrada.Rule = nextInt_ | nextFloat_ | nextDouble_ | nextBoolean_ | next_ | nextChar_;
 
             asignarValor.Rule = nombre + operadorAsignacion + valor;
 
@@ -350,6 +372,11 @@ namespace Compilador.Lexico_Sintactico
                 tipoDato + corcheteAbrir_ + corcheteCerrar_ + corcheteAbrir_ + corcheteCerrar_ + nombre + igual_ + new_ + tipoDato + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + puntoComa_ |
                 tipoDato + nombre + corcheteAbrir_ + corcheteCerrar_ + corcheteAbrir_ + corcheteCerrar_ + puntoComa_ |
                 tipoDato + nombre + corcheteAbrir_ + corcheteCerrar_ + corcheteAbrir_ + corcheteCerrar_ + igual_ + new_ + tipoDato + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + corcheteAbrir_ + expresionAritmetica + corcheteCerrar_ + puntoComa_;
+
+            /*asignarArreglo.Rule = nombre + corcheteAbrir_ + numero + corcheteCerrar_ + igual_ + valor + puntoComa_|
+                nombre + corcheteAbrir_ + numero + corcheteCerrar_ + corcheteAbrir_ + numero + corcheteCerrar_ + igual_ + valor + puntoComa_ |
+                nombre + corcheteAbrir_ + nombre + corcheteCerrar_ + igual_ + valor + puntoComa_ |
+                nombre + corcheteAbrir_ + nombre + corcheteCerrar_ + corcheteAbrir_ + nombre + corcheteCerrar_ + igual_ + valor + puntoComa_;*/
 
             //Scanner
             declaracionScanner.Rule = scanner_ + nombre + igual_ + new_ + scanner_ + parentesisAbrir_ + system_ + punto_ + in_ + parentesisCerrar_ + puntoComa_;
@@ -399,6 +426,16 @@ namespace Compilador.Lexico_Sintactico
                 default_ + dosPuntos_ + break_ + puntoComa_|
                 default_ + dosPuntos_ + bloqueCodigo + break_ + puntoComa_;
 
+            //For
+            bloqueFor.Rule = for_ + parentesisAbrir_ + declaracionVariable + puntoComa_ + condicion + puntoComa_ + asignarValor + parentesisCerrar_ + llavesAbrir_ + bloqueCodigo + llavesCerrar_ |
+                for_ + parentesisAbrir_ + declaracionVariable + puntoComa_ + condicion + puntoComa_ + asignarValor + parentesisCerrar_ + llavesAbrir_ + llavesCerrar_;
+
+            //While
+            bloqueWhile.Rule = while_ + parentesisAbrir_ + condicion + parentesisCerrar_ + llavesAbrir_ + llavesCerrar_ |
+                while_ + parentesisAbrir_ + condicion + parentesisCerrar_ + llavesAbrir_ + bloqueCodigo + llavesCerrar_;
+
+            bloqueDoWhile.Rule = do_ + llavesAbrir_ + llavesCerrar_ + while_ + parentesisAbrir_ + condicion + parentesisCerrar_ + puntoComa_|
+                do_ + llavesAbrir_ + bloqueCodigo + llavesCerrar_ + while_ + parentesisAbrir_ + condicion + parentesisCerrar_ + puntoComa_;
             #endregion
 
             Root = raiz;
