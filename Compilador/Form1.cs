@@ -66,7 +66,6 @@ namespace Compilador
                 {
                     Console.WriteLine(lista[i]);
                 }
-                MessageBox.Show("Exito");
                 Formatear(lista);
                 LLenarTabla(lista);
             }        
@@ -141,7 +140,7 @@ namespace Compilador
             {
                 SaveFileDialog guardar = new SaveFileDialog();
                 guardar.Filter = "raccoon files (*.rpc)|*.rpc|java files (*.java)|*.java|All files (*.*)|*.*";
-                guardar.FilterIndex = 1;
+                guardar.FilterIndex = 3;
                 guardar.RestoreDirectory = true;
 
                 if (guardar.ShowDialog() == DialogResult.OK)
@@ -189,7 +188,7 @@ namespace Compilador
 
             OpenFileDialog abrir = new OpenFileDialog();
             abrir.Filter = "raccoon files (*.rpc)|*.rpc|java files (*.java)|*.java|All files (*.*)|*.*";
-            abrir.FilterIndex = 1;
+            abrir.FilterIndex = 3;
             abrir.RestoreDirectory = true;
 
             if (abrir.ShowDialog() == DialogResult.OK)
@@ -262,7 +261,7 @@ namespace Compilador
         {
             SaveFileDialog guardar = new SaveFileDialog();
             guardar.Filter = "raccoon files (*.rpc)|*.rpc|java files (*.java)|*.java|All files (*.*)|*.*";
-            guardar.FilterIndex = 1;
+            guardar.FilterIndex = 3;
             guardar.RestoreDirectory = true;
 
             if (guardar.ShowDialog() == DialogResult.OK)
