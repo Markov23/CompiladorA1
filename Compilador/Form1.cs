@@ -10,12 +10,17 @@ using System.Windows.Forms;
 using Irony.Parsing;
 using Compilador.Lexico_Sintactico;
 using Compilador.Lexico;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Compilador
 {
     public partial class Compilador : Form
     {
         DataTable dt = new DataTable();
+        string rutaA = "";
+        string rutaG = "";
+        string nombre = "";
 
         public Compilador()
         {
@@ -35,7 +40,17 @@ namespace Compilador
             Console.WriteLine(codigo);
             Console.WriteLine();
 
-            var gramatica = new GramaticaJ();
+            Grammar gramatica;
+
+            if(nombre.Contains(".rpc"))
+            {
+                gramatica = new GramaticaP();
+            }
+            else
+            {
+                gramatica = new GramaticaJ();
+            }
+            
             var parser = new Parser(gramatica);
             var arbol = parser.Parse(codigo);
 
@@ -47,6 +62,11 @@ namespace Compilador
             {
                 //MessageBox.Show("Analisis Exitoso");        
                 PrintParseTree(arbol.Root, lista);
+                for(int i = 0; i < lista.Count; i++)
+                {
+                    Console.WriteLine(lista[i]);
+                }
+                MessageBox.Show("Exito");
                 Formatear(lista);
                 LLenarTabla(lista);
             }        
@@ -74,9 +94,16 @@ namespace Compilador
 
         public void Formatear(List<string> lista)
         {
-            LexerJ Formateador = new LexerJ();
-
-            lista = Formateador.Formatear(lista);
+            if (nombre.Contains(".rpc"))
+            {
+                LexerP Formateador = new LexerP();
+                lista = Formateador.Formatear(lista);
+            }
+            else
+            {
+                LexerJ Formateador = new LexerJ();
+                lista = Formateador.Formatear(lista);
+            }        
 
             for (int i = 0; i < lista.Count; i++)
             {
@@ -104,7 +131,166 @@ namespace Compilador
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Compilar();
+            if(!rutaA.Equals(""))
+            {
+                nombre = rutaA.Split('\\')[rutaA.Split('\\').Length-1];
+
+                Compilar();
+            }
+            else
+            {
+                SaveFileDialog guardar = new SaveFileDialog();
+                guardar.Filter = "raccoon files (*.rpc)|*.rpc|java files (*.java)|*.java|All files (*.*)|*.*";
+                guardar.FilterIndex = 1;
+                guardar.RestoreDirectory = true;
+
+                if (guardar.ShowDialog() == DialogResult.OK)
+                {
+                    rutaG = guardar.FileName;
+
+                    TextWriter archivo;
+
+                    archivo = new StreamWriter(rutaG);
+
+                    archivo.WriteLine(entrada.Text);
+
+                    archivo.Close();
+
+                    rutaA = rutaG;
+
+                    nombre = rutaA.Split('\\')[rutaA.Split('\\').Length - 1];
+                    tabPage1.Text = nombre;
+
+                    if (nombre.Contains(".rpc"))
+                    {
+                        tabPage1.ImageIndex = 0;
+                    }
+                    else
+                    {
+                        tabPage1.ImageIndex = 1;
+                    }
+
+                    Compilar();
+                }
+            }
+        }
+
+        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            entrada.Clear();
+            rutaA = "";
+            rutaG = "";
+            tabPage1.Text = "Archivo";
+            tabPage1.ImageIndex = 2;
+        }
+
+        private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            OpenFileDialog abrir = new OpenFileDialog();
+            abrir.Filter = "raccoon files (*.rpc)|*.rpc|java files (*.java)|*.java|All files (*.*)|*.*";
+            abrir.FilterIndex = 1;
+            abrir.RestoreDirectory = true;
+
+            if (abrir.ShowDialog() == DialogResult.OK)
+            {
+                entrada.Clear();
+                rutaA = abrir.FileName;
+                StreamReader leer = new StreamReader(rutaA);
+
+                string linea;
+
+                try
+                {
+                    linea = leer.ReadLine();
+                    while (linea != null)
+                    {
+                        entrada.AppendText(linea + "\n");
+                        linea = leer.ReadLine();
+                    }
+
+                    nombre = rutaA.Split('\\')[rutaA.Split('\\').Length - 1];
+                    tabPage1.Text = nombre;
+
+                    if (nombre.Contains(".rpc"))
+                    {
+                        tabPage1.ImageIndex = 0;
+                    }
+                    else
+                    {
+                        tabPage1.ImageIndex = 1;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocurrio un error: " + ex.Message);
+                }
+            }
+
+        }
+
+        private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(!rutaA.Equals(""))
+            {
+                StreamWriter escribir = new StreamWriter(rutaA);
+
+                try
+                {
+                    escribir.WriteLine(entrada.Text);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Ocurrio un error: "+ex.Message);
+                }
+
+                escribir.Close();
+            }
+            else
+            {
+                GuardarComo();
+            }
+            
+        }
+
+        private void guardarComoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GuardarComo();
+        }
+
+        public void GuardarComo()
+        {
+            SaveFileDialog guardar = new SaveFileDialog();
+            guardar.Filter = "raccoon files (*.rpc)|*.rpc|java files (*.java)|*.java|All files (*.*)|*.*";
+            guardar.FilterIndex = 1;
+            guardar.RestoreDirectory = true;
+
+            if (guardar.ShowDialog() == DialogResult.OK)
+            {
+                rutaG = guardar.FileName;
+
+                TextWriter archivo;
+
+                archivo = new StreamWriter(rutaG);
+
+                archivo.WriteLine(entrada.Text);
+
+                archivo.Close();
+
+                rutaA = rutaG;
+
+                nombre = rutaA.Split('\\')[rutaA.Split('\\').Length - 1];
+                tabPage1.Text = nombre;
+
+                if (nombre.Contains(".rpc"))
+                {
+                    tabPage1.ImageIndex = 0;
+                }
+                else
+                {
+                    tabPage1.ImageIndex = 1;
+                }
+            }
         }
     }
 }

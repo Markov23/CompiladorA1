@@ -56,6 +56,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Lexico\LexerJ.cs" />
+    <Compile Include="Lexico\LexerP.cs" />
     <Compile Include="Lexico_Sintactico\GramaticaC.cs" />
     <Compile Include="Lexico_Sintactico\GramaticaJ.cs" />
     <Compile Include="Lexico_Sintactico\GramaticaP.cs" />
@@ -88,6 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ejemplos\Java\BaseRectangulo.txt" />
+    <Content Include="Ejemplos\Raccoon\ejemplo.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

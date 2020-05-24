@@ -1,0 +1,92 @@
+public class MiClase
+{
+main()
+{
+//Agrege este ejemplo para comprobar
+showln("Ingresa la base");
+int base;
+getInt(base);
+showln("Ingresa la altura");
+int altura; 
+getInt(altura);
+
+if(base == altura)
+{
+showln("La figura es un cuadrado");
+showln("Area: "+(base*base)+" m2");
+bool cuadrado;
+assign(cuadrado,true);
+}
+else if(base > altura)
+{
+showln("La figura es un rectangulo a lo largo");
+showln("Area: "+(base*altura)+" m2");
+bool cuadrado;
+assign(cuadrado,false);
+}
+else
+{
+showln("La figura es un rectangulo a lo alto");
+showln("Area: "+(base*altura)+" m2");
+bool cuadrado;
+assign(cuadrado,false);
+}
+
+cases(cuadrado)
+{
+when true:
+showln("Si era un cuadrado");
+break;
+
+when false:
+showln("No era un cuadrado");
+break;
+
+default:
+showln("Algo ocurrio");
+break;
+}
+
+int[] arreglo = new int[10];
+
+string[][] matriz = new string[10][20];
+
+until(int i; assign(i,0); i < z; inc(i))
+{
+showln("Mensaje numero: "+(i+1));
+}
+
+int numero;
+assignS(numero,42 + base);
+
+do
+{
+showln("Adivina el numero");
+int adivina;
+getInt(adivina);
+if(adivina > numero)
+{
+showln("Prueba con un numero mas chico");
+}
+else if( adivina < numero)
+{
+showln("Prueba con un numero mas grande");
+}
+
+}
+while(adivina != numero);
+
+showln("Felicidades has ganado");
+
+bool valor;
+assign(valor,false);
+
+while(valor == false)
+{
+showln("El valor es false");
+}
+
+//Esto es un comentario de una sola linea
+}
+}
+

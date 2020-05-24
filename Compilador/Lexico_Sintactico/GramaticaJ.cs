@@ -21,7 +21,7 @@ namespace Compilador.Lexico_Sintactico
             public const string BloqueCodigo = "<bloque-codigo>";
             public const string OperacionVariable = "<operacion-variable>";
             public const string DeclaracionVariable = "<declaracion-variable>";
-            public const string TipoDato = "<tipo-dato";
+            public const string TipoDato = "<tipo-dato>";
             public const string Variable = "<variable>";
             public const string Valor = "<valor>";
             public const string EntradaDatos = "<entrada-datos>";
